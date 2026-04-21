@@ -1,0 +1,4 @@
+export const KEY_QUERY = {
+  ACCOUNT: "ACCOUNT",
+  LIST_WORKSPACES: "LIST_WORKSPACES",
+};
