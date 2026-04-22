@@ -62,7 +62,13 @@ const WorkspaceList = () => {
       title: "Action",
       render: (_: any, record: any) => (
         <Space>
-          <Button onClick={() => navigate(`/workspaces/${record.id}`)}>
+          <Button
+            onClick={() =>
+              navigate(`/workspaces/${record.id}`, {
+                state: { workspace: record },
+              })
+            }
+          >
             Open
           </Button>
 

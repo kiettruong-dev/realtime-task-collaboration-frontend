@@ -9,6 +9,7 @@ import LoginPage from "./pages/login/login_page";
 import WorkspacePage from "./pages/workspace/workspace_page";
 import TaskPage from "./pages/task/task_page";
 import RegisterPage from "./pages/register/register_page";
+import MainLayout from "./layout/main_layout";
 
 export default function App() {
   const token = getAccessToken();
@@ -26,21 +27,15 @@ export default function App() {
         <Route path="/register" element={<RegisterPage />} />
 
         <Route
-          path="/"
           element={
             <ProtectedRoute>
-              <WorkspacePage />
+              <MainLayout />
             </ProtectedRoute>
           }
-        />
-        <Route
-          path="/workspaces/:workspaceId"
-          element={
-            <ProtectedRoute>
-              <TaskPage />
-            </ProtectedRoute>
-          }
-        />
+        >
+          <Route path="/" element={<WorkspacePage />} />
+          <Route path="/workspaces/:workspaceId" element={<TaskPage />} />
+        </Route>
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

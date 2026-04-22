@@ -44,8 +44,6 @@ const TaskBoard = () => {
     if (data) setTasks(data);
   }, [data]);
 
-  // ─── Broadcast handlers ───────────────────────────────────────────────────
-
   const handleTaskCreate = useCallback(
     (task: any, fromBroadcast = false) => {
       setTasks((prev) => {

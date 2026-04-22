@@ -1,14 +1,20 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import TaskBoard from "./components/task_board";
+import { ArrowLeftOutlined } from "@ant-design/icons";
+import { Flex } from "antd";
 
 const TaskPage = () => {
-  const { workspaceId } = useParams();
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const nameWorkspace = location.state?.workspace?.name || "Workspace";
   return (
     <div style={{ padding: 20 }}>
-      <h2>Workspace: {workspaceId}</h2>
+      <Flex align="center" gap={16} style={{ marginBottom: 20 }}>
+        <ArrowLeftOutlined onClick={() => navigate(-1)} />
+        <h2>Workspace: {nameWorkspace}</h2>
+      </Flex>
       <TaskBoard />
     </div>
   );
