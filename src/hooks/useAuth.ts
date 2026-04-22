@@ -14,7 +14,7 @@ import {
   reconnectSocket,
   getSocket,
 } from "@/socket/socket";
-import type { LoginRequest, LoginResponse } from "@/types";
+import type { LoginRequest, LoginResponse, RegisterRequest } from "@/types";
 import { apiAuth } from "@/api";
 import { DEFAULT_ERROR, KEY_QUERY } from "@/constants";
 
@@ -74,6 +74,20 @@ export const useAuth = () => {
     },
   });
 
+  const registerMutation = useMutation({
+    mutationFn: (data: RegisterRequest) => apiAuth.register(data),
+    onSuccess: () => {
+      message.success("Đăng ký thành công, vui lòng đăng nhập");
+      navigate("/login");
+    },
+    onError: (err: any) => {
+      const messageError =
+        err?.response?.data?.message ||
+        "Đăng ký thất bại, vui lòng thử lại sau!";
+      message.error(messageError);
+    },
+  });
+
   const handleTokenExpiration = async () => {
     try {
       removeAccessToken();
@@ -104,6 +118,7 @@ export const useAuth = () => {
     isAuthError: queryMe.isError,
     login: loginMutation.mutate,
     logout: logoutMutation.mutate,
+    register: registerMutation.mutate,
     handleTokenExpiration,
     setupSocketAuthErrorHandler,
     reconnectSocket: () => {

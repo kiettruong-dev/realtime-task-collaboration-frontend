@@ -1,13 +1,14 @@
 import { useAuth } from "@/hooks";
-import { Button, Card, Form, Input } from "antd";
-import { Typography } from "antd";
+import { Button, Form, Input, Typography } from "antd";
+import Card from "antd/es/card/Card";
 import { useNavigate } from "react-router-dom";
-const LoginPage = () => {
+
+const RegisterPage = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { register } = useAuth();
 
   const onFinish = (values: any) => {
-    login(values);
+    register(values);
   };
 
   return (
@@ -19,7 +20,7 @@ const LoginPage = () => {
         alignItems: "center",
       }}
     >
-      <Card title="Login" style={{ width: 350 }}>
+      <Card title="Register" style={{ width: 350 }}>
         <Form layout="vertical" onFinish={onFinish}>
           <Form.Item name="email" rules={[{ required: true }]}>
             <Input placeholder="Email" />
@@ -30,12 +31,12 @@ const LoginPage = () => {
           </Form.Item>
 
           <Button type="primary" htmlType="submit" block>
-            Login
+            Register
           </Button>
           <div style={{ marginTop: 10 }}>
-            Don't have an account?{" "}
-            <Typography.Link onClick={() => navigate("/register")}>
-              Register
+            Already have an account?{" "}
+            <Typography.Link onClick={() => navigate("/login")}>
+              Login
             </Typography.Link>
           </div>
         </Form>
@@ -44,4 +45,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

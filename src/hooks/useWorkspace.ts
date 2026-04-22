@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useQuery,
   keepPreviousData,
@@ -8,6 +8,7 @@ import {
 import { apiWorkspace } from "@/api";
 import { KEY_QUERY, PAGE, PAGE_SIZE } from "@/constants";
 import { message } from "antd";
+import { getSocket } from "@/socket/socket";
 
 export const useWorkspaces = () => {
   const [params, setParams] = useState({
@@ -63,4 +64,20 @@ export const useInviteWorkspace = (workspaceId: string) => {
       );
     },
   });
+};
+
+export const useWorkspaceSocket = (
+  params: any,
+  onInvited: (workspace: any) => void,
+) => {
+  useEffect(() => {
+    const socket = getSocket();
+    if (!socket) return;
+
+    socket.on("workspace_invited", onInvited);
+
+    return () => {
+      socket.off("workspace_invited", onInvited);
+    };
+  }, [params]);
 };

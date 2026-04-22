@@ -8,6 +8,7 @@ import { connectSocket } from "./socket/socket";
 import LoginPage from "./pages/login/login_page";
 import WorkspacePage from "./pages/workspace/workspace_page";
 import TaskPage from "./pages/task/task_page";
+import RegisterPage from "./pages/register/register_page";
 
 export default function App() {
   const token = getAccessToken();
@@ -22,6 +23,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
         <Route
           path="/"

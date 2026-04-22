@@ -8,7 +8,7 @@ export const setAccessToken = (accessToken: string) => {
       accessToken,
       CRYPTO_KEY,
     ).toString();
-    Cookies.set(KEY_LOCAL.ACCESS_TOKEN, encryptedData);
+    Cookies.set(KEY_LOCAL.ACCESS_TOKEN, encryptedData, { expires: 7 });
   } catch (error) {
     console.log("error set token: ", error);
     Cookies.remove(KEY_LOCAL.ACCESS_TOKEN);

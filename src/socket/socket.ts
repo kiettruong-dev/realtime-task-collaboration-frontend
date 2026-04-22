@@ -25,7 +25,7 @@ export const connectSocket = (token: string) => {
     return socket;
   }
 
-  socket = io("http://localhost:3000", {
+  socket = io(import.meta.env.VITE_BASE_URL, {
     auth: { token },
     reconnection: true,
     reconnectionDelay: 1000,
