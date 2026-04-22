@@ -1,9 +1,9 @@
-import type { queryGetWorkspaces } from "@/types";
+import type { QueryGetWorkspaces } from "@/types";
 import { api } from "./axios";
 import { API_URL } from "./url";
 
 export const apiWorkspace = {
-  getWorkspaces: async (params: queryGetWorkspaces) => {
+  getWorkspaces: async (params: QueryGetWorkspaces) => {
     const response = await api.get(API_URL.WORKSPACES, { params });
     return response.data;
   },

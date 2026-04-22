@@ -7,11 +7,11 @@ import { getAccessToken } from "./utils/token";
 import { connectSocket } from "./socket/socket";
 import LoginPage from "./pages/login/login_page";
 import WorkspacePage from "./pages/workspace/workspace_page";
+import TaskPage from "./pages/task/task_page";
 
 export default function App() {
   const token = getAccessToken();
 
-  // 🔌 Auto connect socket nếu đã login
   useEffect(() => {
     if (token) {
       connectSocket(token);
@@ -21,10 +21,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public */}
         <Route path="/login" element={<LoginPage />} />
 
-        {/* Private */}
         <Route
           path="/"
           element={
@@ -33,8 +31,15 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/workspaces/:workspaceId"
+          element={
+            <ProtectedRoute>
+              <TaskPage />
+            </ProtectedRoute>
+          }
+        />
 
-        {/* fallback */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>

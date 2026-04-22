@@ -1,4 +1,4 @@
-export interface queryGetWorkspaces {
-  page: number;
-  pageSize: number;
-}
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+import type { PaginationParams } from "./common";
+
+export interface QueryGetWorkspaces extends PaginationParams {}

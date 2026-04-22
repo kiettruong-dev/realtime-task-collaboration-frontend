@@ -5,4 +5,8 @@ export const API_URL = {
   // workspace
   WORKSPACES: "/workspaces",
   INVITE_TO_WORKSPACE: "/workspaces/{workspaceId}/invite",
+
+  // task
+  TASKS: "/tasks",
+  LIST_TASKS: "/tasks/{workspaceId}",
 };

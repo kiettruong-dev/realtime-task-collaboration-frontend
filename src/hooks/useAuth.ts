@@ -8,7 +8,12 @@ import {
   setAccessToken,
   removeAccessToken,
 } from "@/utils/token";
-import { connectSocket, disconnectSocket } from "@/socket/socket";
+import {
+  connectSocket,
+  disconnectSocket,
+  reconnectSocket,
+  getSocket,
+} from "@/socket/socket";
 import type { LoginRequest, LoginResponse } from "@/types";
 import { apiAuth } from "@/api";
 import { DEFAULT_ERROR, KEY_QUERY } from "@/constants";
@@ -26,6 +31,12 @@ export const useAuth = () => {
       const res = await apiAuth.getProfile();
       return res;
     },
+    retry: (failureCount, error: any) => {
+      if (error?.response?.status === 401) {
+        return false;
+      }
+      return failureCount < 3;
+    },
   });
 
   const loginMutation = useMutation({
@@ -35,9 +46,6 @@ export const useAuth = () => {
       const token = res.accessToken;
       setAccessToken(token);
       connectSocket(token);
-
-      // refetch user
-      //   queryClient.invalidateQueries([KEY_QUERY.ACCOUNT]);
 
       message.success("Đăng nhập thành công");
       navigate("/");
@@ -58,9 +66,7 @@ export const useAuth = () => {
 
     onSuccess: () => {
       removeAccessToken();
-
       disconnectSocket();
-
       queryClient.clear();
 
       message.success("Logout success");
@@ -68,11 +74,42 @@ export const useAuth = () => {
     },
   });
 
+  const handleTokenExpiration = async () => {
+    try {
+      removeAccessToken();
+      disconnectSocket();
+
+      message.error("Token hết hạn, vui lòng đăng nhập lại");
+      navigate("/login");
+    } catch (error) {
+      console.error("Error handling token expiration:", error);
+      navigate("/login");
+    }
+  };
+
+  const setupSocketAuthErrorHandler = () => {
+    const socket = getSocket();
+    if (!socket) return;
+
+    socket.on("auth_error", () => {
+      console.log("Socket auth error, logging out");
+      handleTokenExpiration();
+    });
+  };
+
   return {
     accessToken,
     user: queryMe.data,
     isLoadingUser: queryMe.isLoading,
+    isAuthError: queryMe.isError,
     login: loginMutation.mutate,
     logout: logoutMutation.mutate,
+    handleTokenExpiration,
+    setupSocketAuthErrorHandler,
+    reconnectSocket: () => {
+      if (accessToken) {
+        reconnectSocket(accessToken);
+      }
+    },
   };
 };
