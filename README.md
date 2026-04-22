@@ -2,7 +2,7 @@
 
 React + TypeScript frontend for realtime task collaboration system
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Framework**: React 19.x
 - **Language**: TypeScript
@@ -382,30 +382,6 @@ pnpm run test:cov
 7. **Code organization**: Keep components focused and reusable
 
 ---
-
-**Last Updated**: April 22, 2026
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-globalIgnores(['dist']),
-{
-files: ['**/*.{ts,tsx}'],
-extends: [
-// Other configs...
-// Enable lint rules for React
-reactX.configs['recommended-typescript'],
-// Enable lint rules for React DOM
-reactDom.configs.recommended,
-],
-languageOptions: {
-parserOptions: {
-project: ['./tsconfig.node.json', './tsconfig.app.json'],
-tsconfigRootDir: import.meta.dirname,
-},
-// other options...
-},
-},
-])
 
 ```
 
